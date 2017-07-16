@@ -18,6 +18,10 @@
             With Facebook:
             <a href="/login/facebook">click here</a>
         </div>
+        <div>
+            With Github:
+            <a href="/login/github">click here</a>
+        </div>
     </div>
     <div class="container" ng-show="home.authenticated">
         Logged in as:
@@ -36,8 +40,13 @@
 						}).controller("home", function($http, $location) {
 					var self = this;
 					$http.get("/user").success(function(data) {
-						self.user = data.userAuthentication.details.name;
-						self.authenticated = true;
+						if (data.name) {
+							self.user = data.name;
+							self.authenticated = true;
+						} else {
+							self.user = "N/A";
+							self.authenticated = false;
+						}
 					}).error(function() {
 						self.user = "N/A";
 						self.authenticated = false;
